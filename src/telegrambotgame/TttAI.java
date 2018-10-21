@@ -1,8 +1,9 @@
+package telegrambotgame;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random;
 
-public class AI {
+public class TttAI {
 	
 	public char ai_side = '_';
 	
@@ -10,7 +11,7 @@ public class AI {
 		this.ai_side = side.charAt(0);
 	}
 	
-	public Map<String, String> MakeRowMap(Grid grid) {
+	public Map<String, String> MakeRowMap(TttGrid grid) {
 		Map<String, String> resultMap = new HashMap<String, String>();
 		for(int x=0; x<3; x++) {
 			StringBuilder resultRow = new StringBuilder();
@@ -94,15 +95,57 @@ public class AI {
 				maxPriorityIndex = entry.getValue();
 				thisEntry = false;
 			}
-			System.out.println(maxPriorityLine + " line");
-			System.out.println(maxPriority + " prior");
+			//System.out.println(maxPriorityLine + " line");
+			//System.out.println(maxPriority + " prior");
 		}
 		
 		//System.out.print(maxPriorityLine);
 		return new String[] {maxPriorityLine, maxPriorityIndex};
 	}
 	
-	public void doMove(Grid grid) {
+	public String checkGameOver(TttGrid grid) {
+		
+		Map<String, String> map = MakeRowMap(grid);
+		int uCount = 0;
+		int xComplete = 0;
+		int oComplete = 0;
+		
+		for (Map.Entry<String, String> entry : map.entrySet()) {
+			int xCount = 0;
+			int oCount = 0;
+			for (char symb : entry.getKey().toCharArray()) {
+				switch (symb) {
+				case 'o': oCount++; break;
+				case 'x': xCount++; break;
+				case '_': uCount++; break;
+				}
+			}
+			if (xCount == 3) {
+				xComplete++;
+			}
+			else if (oCount == 3) {
+				oComplete++;
+			}
+		}
+		if (xComplete != 0) {
+			if (oComplete != 0) {
+				return "xo";
+			}
+			return "x";
+		}
+		else if (oComplete != 0) {
+			if (xComplete != 0) {
+				return "xo";
+			}
+			return "o";
+		}
+		else if (uCount == 0) {
+			return "draw";
+		}
+		return "None";
+	}
+	
+	public void doMove(TttGrid grid) {
 		
 		String[] lineToEdit = editLine(MakeRowMap(grid));
 		
@@ -125,15 +168,15 @@ public class AI {
 			inx++;
 		}
 		
-		System.out.println(rowOrColumn + " roworcol");
+		//System.out.println(rowOrColumn + " roworcol");
 		
 		if (lineIndex.equals("A") || lineIndex.equals("B") || lineIndex.equals("C")) {
 			result.append(lineIndex);
 			result.append(rowOrColumn);
-			System.out.println("ABC");
+			//System.out.println("ABC");
 		}
 		else if (lineIndex.equals("1") || lineIndex.equals("2") || lineIndex.equals("3")) {
-			System.out.println("123");
+			//System.out.println("123");
 			switch (rowOrColumn) {
 			case 1: result.append("A"); break;
 			case 2: result.append("B"); break;
@@ -148,7 +191,7 @@ public class AI {
 			case 2: result.append("B2"); break;
 			case 3: result.append("C3"); break;
 			}
-			System.out.println("FD");
+			//System.out.println("FD");
 		}
 		else if (lineIndex.equals("SD")){
 			switch (rowOrColumn) {
@@ -156,11 +199,11 @@ public class AI {
 			case 2: result.append("B2"); break;
 			case 3: result.append("A3"); break;
 			}
-			System.out.println("SD");
+			//System.out.println("SD");
 		}
-		System.out.println(result.toString());
-		System.out.println("___________");
-		if (grid.modifyGrid(result.toString(), this.ai_side).equals("ok")) {	
+		//System.out.println(result.toString());
+		//System.out.println("___________");
+		if (grid.modifyGrid(result.toString(), this.ai_side) == false) {	
 			return;
 		}	
 	}

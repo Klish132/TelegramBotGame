@@ -1,4 +1,5 @@
-public class Player {
+package telegrambotgame;
+public class TttPlayer {
 	
 	public char player_side = '_';
 	

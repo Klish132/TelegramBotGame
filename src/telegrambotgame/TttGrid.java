@@ -1,5 +1,6 @@
+package telegrambotgame;
 
-public class Grid {
+public class TttGrid {
 	
 	public char[][] grid_array = new char[3][3]; {
 		for (int i=0; i<=2; i++) {
@@ -9,7 +10,7 @@ public class Grid {
 		}
 	}
 	
-	public String modifyGrid(String action, char side) {
+	public Boolean modifyGrid(String action, char side) {
 		
 		int x_coord = 0;
 		int y_coord = 0;
@@ -23,9 +24,9 @@ public class Grid {
 		
 		if (grid_array[y_coord][x_coord] == '_') {
 			grid_array[y_coord][x_coord] = side;
-			return "ok";
+			return false;
 		}
-		return "action_exception";
+		return true;
 		
 	}
 	public char printChar(int x, int y) {
