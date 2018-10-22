@@ -49,7 +49,7 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 	@Override
 	public String getBotToken() {
 		// TODO Auto-generated method stub
-		return "680527118:AAHs4wOyPxfKuFgRQhvdQXlhK5AKVduiaOQ";
+		return System.getenv("tgbot_token");
 	}
 
 }

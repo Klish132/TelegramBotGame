@@ -34,14 +34,14 @@ public class BotCore {
 		case "ttt":
 			
 			switch(input_msg) {
-			case "x":
-				ttt_setSide("x", "o"); break;
-			case "o":
-				ttt_setSide("o", "x"); break;
 			case "/exit":
 				reset_bot();
 				output_msg.add("Stopping TickTackToe...");
 				break;
+			case "x":
+				ttt_setSide("x", "o"); break;
+			case "o":
+				ttt_setSide("o", "x"); break;
 			default:
 				ttt_doAction(input_msg);
 				if (ttt_checkGameOver() == true) {
