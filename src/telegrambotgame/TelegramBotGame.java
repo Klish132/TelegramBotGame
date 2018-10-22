@@ -48,7 +48,6 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 	
 	@Override
 	public String getBotToken() {
-		// TODO Auto-generated method stub
 		return System.getenv("tgbot_token");
 	}
 
