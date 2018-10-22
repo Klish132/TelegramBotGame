@@ -27,7 +27,7 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 		
 		if (update.hasMessage() && update.getMessage().hasText()) {
 			
-			ArrayList<String> output_msg_list = this.core.Analyze(input_msg);
+			ArrayList<String> output_msg_list = this.core.analyze(input_msg);
 			for (String message : output_msg_list) {
 				sendMsg(chat_id, message);
 			}

@@ -44,6 +44,11 @@ public class Ttt {
 		this.ttt_AI = new TttAI();
 	}
 	
+	public void ttt_startGame( ) {
+		output_msg.add("Please enter your side: \n x or o");
+		ttt_status();
+	}
+	
 	public String ttt_drawGrid(TttGrid grid) {
 		StringJoiner sj = new StringJoiner(System.lineSeparator());
 		for(char[] row : grid.grid_array) {

@@ -28,7 +28,7 @@ class BotCoreTest {
 			ArrayList<String> result = new ArrayList<String>();
 			result.add("Please enter your side: \n x or o");
 			
-			assertEquals(result, testCore.Analyze("/ttt"));
+			assertEquals(result, testCore.analyze("/ttt"));
 		}
 	
 	@Test
@@ -39,7 +39,7 @@ class BotCoreTest {
 			ArrayList<String> result = new ArrayList<String>();
 			result.add("Stopping TickTackToe...");
 			
-			assertEquals(result, testCore.Analyze("/exit"));
+			assertEquals(result, testCore.analyze("/exit"));
 		}
 	
 	@Test
@@ -57,7 +57,7 @@ class BotCoreTest {
 			result.add("you are now playing as: x");
 			result.add(drawGrid(empty_grid));
 			
-			assertEquals(result, testCore.Analyze("x"));
+			assertEquals(result, testCore.analyze("x"));
 		}
 	
 	@Test
@@ -82,7 +82,7 @@ class BotCoreTest {
 		ArrayList<String> result = new ArrayList<String>();
 		result.add(drawGrid(end_grid));
 		
-		assertEquals(result, testCore.Analyze("B2"));
+		assertEquals(result, testCore.analyze("B2"));
 	}
 	
 	@Test
@@ -107,7 +107,7 @@ class BotCoreTest {
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
 			
-			assertEquals(result, testCore.Analyze("B2"));
+			assertEquals(result, testCore.analyze("B2"));
 		}
 	
 	@Test
@@ -132,7 +132,7 @@ class BotCoreTest {
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
 			
-			assertEquals(result, testCore.Analyze("B2"));
+			assertEquals(result, testCore.analyze("B2"));
 		}
 	
 	@Test
@@ -157,7 +157,7 @@ class BotCoreTest {
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
 			
-			assertEquals(result, testCore.Analyze("B2"));
+			assertEquals(result, testCore.analyze("B2"));
 		}
 	
 	@Test
@@ -182,7 +182,7 @@ class BotCoreTest {
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
 			
-			assertEquals(result, testCore.Analyze("C2"));
+			assertEquals(result, testCore.analyze("C2"));
 		}
 	
 }
