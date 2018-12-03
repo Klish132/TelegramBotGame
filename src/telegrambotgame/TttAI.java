@@ -5,10 +5,10 @@ import java.util.Random;
 
 public class TttAI {
 	
-	public char ai_side = '_';
+	public String ai_side = "_";
 	
 	public void setSide(String side) {
-		this.ai_side = side.charAt(0);
+		this.ai_side = side;
 	}
 	
 	public Map<String, String> MakeRowMap(TttGrid grid) {
@@ -24,8 +24,8 @@ public class TttAI {
 			case 2: column.append('C'); break;
 			}
 			for(int y=0; y<3; y++) {
-				resultRow.append(grid.grid_array[x][y]);
-				resultColumn.append(grid.grid_array[y][x]);
+				resultRow.append(grid.grid_array.get(x).get(y));
+				resultColumn.append(grid.grid_array.get(y).get(x));
 			}
 			resultMap.put(resultRow.toString(), row);
 			resultMap.put(resultColumn.toString(), column.toString());
@@ -34,8 +34,8 @@ public class TttAI {
 		}
 		StringBuilder firstDiag = new StringBuilder();
 		StringBuilder secondDiag = new StringBuilder();
-		firstDiag.append(grid.grid_array[0][0]).append(grid.grid_array[1][1]).append(grid.grid_array[2][2]);
-		secondDiag.append(grid.grid_array[0][2]).append(grid.grid_array[1][1]).append(grid.grid_array[2][0]);
+		firstDiag.append(grid.grid_array.get(0).get(0)).append(grid.grid_array.get(1).get(1)).append(grid.grid_array.get(2).get(2));
+		secondDiag.append(grid.grid_array.get(0).get(2)).append(grid.grid_array.get(1).get(1)).append(grid.grid_array.get(2).get(0));
 		resultMap.put(firstDiag.toString(), "FD");
 		resultMap.put(secondDiag.toString(), "SD");
 		//System.out.println(firstDiag + " diag");
@@ -55,14 +55,14 @@ public class TttAI {
 			int opponentCount = 0;
 			int uCount = 0;
 			for (char symb : entry.getKey().toCharArray()) {
-				if (this.ai_side == 'x') {
+				if (this.ai_side == "x") {
 					switch (symb) {
 					case 'x': selfCount++; break;
 					case 'o': opponentCount++; break;
 					case '_': uCount++; break;
 					}
 				}
-				else if (this.ai_side == 'o') {
+				else if (this.ai_side == "o") {
 					switch (symb) {
 					case 'o': selfCount++; break;
 					case 'x': opponentCount++; break;

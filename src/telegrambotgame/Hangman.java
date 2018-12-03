@@ -6,32 +6,38 @@ import java.util.ArrayList;
 import java.util.Random;
 import java.util.Scanner;
 
+import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
+
 public class Hangman {
+	
+	public HangmanWord hm_wordList = new HangmanWord();
 	
 	public String hm_word;
 	public boolean game_status = false;
 	
-	public ArrayList<Character> char_list;
-	public ArrayList<Character> locked_list;
+	public ArrayList<String> art_list= new ArrayList<String>();
 	public int fail_counter = 0;
 	
-	public ArrayList<String> output_msg = new ArrayList<String>();
+	//public ArrayList<String> output_msg = new ArrayList<String>();
+	public BotMessage message = new BotMessage();
 	
-	public ArrayList<String> hm_switch(String input_msg) {
+	public BotMessage hm_switch(String input_msg) {
 		
 		switch(input_msg) {
 		case "/exit":
 			hm_status();
-			output_msg.add("Stopping Hangman...");
+			message.setMessageText("Stopping Hangman...");
 			break;
 		default:
-			hm_doAction(input_msg);
+			if (input_msg.length() == 1) {
+				hm_doAction(input_msg);
+			}
 			if (hm_checkGameOver() == true) {
 				hm_status();
 			}
 			break;
 		}
-		return output_msg;
+		return message;
 	}
 	
 	public void hm_status() {
@@ -39,31 +45,41 @@ public class Hangman {
 	}
 	
 	public void hm_startGame() {
-		output_msg.add("");
 		hm_status();
 		this.hm_word = hm_getWord();
-		hm_fillLists(this.hm_word);
+		this.hm_wordList.fillLists(this.hm_word);
+		hm_fillArtList();
+		message.setMessageText(this.art_list.get(this.fail_counter));
+		message.setMessageMarkup(this.hm_wordList.locked_array);
+	}
+	
+	public void hm_fillArtList() {
+		
+		try {
+			Scanner file_scanner = new Scanner(new File("hangman_art.txt"));
+				
+			while (file_scanner.hasNext()) {
+				this.art_list.add(file_scanner.nextLine());
+			}
+			file_scanner.close();
+		
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void hm_doAction(String input_msg) {
 		
-		char letter = input_msg.charAt(0);
-		int change_count = 0;
-		
-		if (!this.char_list.contains(letter)) {
+		if (!this.hm_wordList.contains(input_msg)) {
 			this.fail_counter++;
-			output_msg.add("This letter does not exist.");
+			message.setMessageText("This letter does not exist. \n" + this.art_list.get(this.fail_counter));
 		} else {
-			for (int i=0; i<char_list.size(); i++) {
-				if (char_list.get(i) == letter) {
-					locked_list.set(i, letter);
-					change_count++;
-				}
-			}
+			int change_count = this.hm_wordList.modifyArray(input_msg);
 			if (change_count == 0) {
-				output_msg.add("This letter was already unlocked!");
+				message.setMessageText("This letter does not exist. \n" + this.art_list.get(this.fail_counter));
 			} else {
-				output_msg.add(hm_joinList(locked_list));
+				message.setMessageText(this.art_list.get(this.fail_counter));
+				message.setMessageMarkup(this.hm_wordList.locked_array);
 			}
 		}	
 	}
@@ -84,7 +100,6 @@ public class Hangman {
 	public String hm_getWord() {
 		
 		ArrayList<String> words = new ArrayList<String>();
-		Random random_index = new Random(words.size());
 		
 		try {
 			Scanner file_scanner = new Scanner(new File("hangman_words.txt"));
@@ -97,19 +112,12 @@ public class Hangman {
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}
-		
-		return words.get(random_index.nextInt());
-	}
-	
-	public void hm_fillLists(String word) {
-		for (char letter : word.toCharArray()) {
-			char_list.add(letter);
-			locked_list.add('_');
-		}
+		Random random_index = new Random();
+		return words.get(random_index.nextInt(words.size()));
 	}
 	
 	public boolean hm_checkGameOver() {
-		if (this.fail_counter == 7) {
+		if (this.fail_counter == 8) {
 			return true;
 		}
 		return false;
