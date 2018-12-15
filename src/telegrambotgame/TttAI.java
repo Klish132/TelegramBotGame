@@ -13,33 +13,24 @@ public class TttAI {
 	
 	public Map<String, String> MakeRowMap(TttGrid grid) {
 		Map<String, String> resultMap = new HashMap<String, String>();
-		for(int x=0; x<3; x++) {
+		for(int x=0; x<=2; x++) {
 			StringBuilder resultRow = new StringBuilder();
 			StringBuilder resultColumn = new StringBuilder();
-			String row=String.valueOf(x+1);
-			StringBuilder column = new StringBuilder();
-			switch (x) {
-			case 0: column.append('A'); break;
-			case 1: column.append('B'); break;
-			case 2: column.append('C'); break;
-			}
-			for(int y=0; y<3; y++) {
-				resultRow.append(grid.grid_array.get(x).get(y));
-				resultColumn.append(grid.grid_array.get(y).get(x));
+			String row = String.valueOf(x);
+			String column = String.valueOf(x);
+			for(int y=0; y<=2; y++) {
+				resultRow.append(grid.grid_array.get(x).get(y).get(0));
+				resultColumn.append(grid.grid_array.get(y).get(x).get(0));
 			}
 			resultMap.put(resultRow.toString(), row);
-			resultMap.put(resultColumn.toString(), column.toString());
-			//System.out.println(resultRow + "row");
-			//System.out.println(resultColumn + "column");
+			resultMap.put(resultColumn.toString(), column);
 		}
 		StringBuilder firstDiag = new StringBuilder();
 		StringBuilder secondDiag = new StringBuilder();
-		firstDiag.append(grid.grid_array.get(0).get(0)).append(grid.grid_array.get(1).get(1)).append(grid.grid_array.get(2).get(2));
-		secondDiag.append(grid.grid_array.get(0).get(2)).append(grid.grid_array.get(1).get(1)).append(grid.grid_array.get(2).get(0));
+		firstDiag.append(grid.grid_array.get(0).get(0).get(0)).append(grid.grid_array.get(1).get(1).get(0)).append(grid.grid_array.get(2).get(2).get(0));
+		secondDiag.append(grid.grid_array.get(0).get(2).get(0)).append(grid.grid_array.get(1).get(1).get(0)).append(grid.grid_array.get(2).get(0).get(0));
 		resultMap.put(firstDiag.toString(), "FD");
 		resultMap.put(secondDiag.toString(), "SD");
-		//System.out.println(firstDiag + " diag");
-		//System.out.println(secondDiag + " diag");
 		
 		return resultMap;
 	}
@@ -55,6 +46,7 @@ public class TttAI {
 			int opponentCount = 0;
 			int uCount = 0;
 			for (char symb : entry.getKey().toCharArray()) {
+				System.out.println("Symbol: " + symb);
 				if (this.ai_side == "x") {
 					switch (symb) {
 					case 'x': selfCount++; break;
@@ -95,11 +87,7 @@ public class TttAI {
 				maxPriorityIndex = entry.getValue();
 				thisEntry = false;
 			}
-			//System.out.println(maxPriorityLine + " line");
-			//System.out.println(maxPriority + " prior");
 		}
-		
-		//System.out.print(maxPriorityLine);
 		return new String[] {maxPriorityLine, maxPriorityIndex};
 	}
 	
@@ -150,59 +138,47 @@ public class TttAI {
 		String[] lineToEdit = editLine(MakeRowMap(grid));
 		
 		char[] line = lineToEdit[0].toCharArray();
+		System.out.println(lineToEdit[0]);
 		String lineIndex = lineToEdit[1];
-		
-		//System.out.println(lineToEdit[0]);
-		//System.out.println(lineIndex + " lineinx");
 		
 		int rowOrColumn = 1;
 		StringBuilder result = new StringBuilder();
 		
-		int inx = 1;
+		int inx = 0;
 		for (char symb : line) {
 			if (symb == '_') {
 				rowOrColumn = inx;
-				inx = 1;
+				inx = 0;
 				break;
 			}
 			inx++;
 		}
 		
-		//System.out.println(rowOrColumn + " roworcol");
-		
-		if (lineIndex.equals("A") || lineIndex.equals("B") || lineIndex.equals("C")) {
+		if (lineIndex.equals("0") || lineIndex.equals("1") || lineIndex.equals("2")) {
 			result.append(lineIndex);
 			result.append(rowOrColumn);
-			//System.out.println("ABC");
+			System.out.println(result.toString());
 		}
-		else if (lineIndex.equals("1") || lineIndex.equals("2") || lineIndex.equals("3")) {
-			//System.out.println("123");
-			switch (rowOrColumn) {
-			case 1: result.append("A"); break;
-			case 2: result.append("B"); break;
-			case 3: result.append("C"); break;
-			}
+		else if (lineIndex.equals("0") || lineIndex.equals("1") || lineIndex.equals("2")) {
+			result.append(rowOrColumn);
 			result.append(lineIndex);
 			
 		}
 		else if (lineIndex.equals("FD")){
 			switch (rowOrColumn) {
-			case 1: result.append("A1"); break;
-			case 2: result.append("B2"); break;
-			case 3: result.append("C3"); break;
+			case 1: result.append("00"); break;
+			case 2: result.append("11"); break;
+			case 3: result.append("22"); break;
 			}
-			//System.out.println("FD");
 		}
 		else if (lineIndex.equals("SD")){
 			switch (rowOrColumn) {
-			case 1: result.append("C1"); break;
-			case 2: result.append("B2"); break;
-			case 3: result.append("A3"); break;
+			case 1: result.append("02"); break;
+			case 2: result.append("11"); break;
+			case 3: result.append("20"); break;
 			}
-			//System.out.println("SD");
 		}
-		//System.out.println(result.toString());
-		//System.out.println("___________");
+		
 		if (grid.modifyGrid(result.toString(), this.ai_side) == false) {	
 			return;
 		}	

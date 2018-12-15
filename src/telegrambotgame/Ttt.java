@@ -3,6 +3,7 @@ package telegrambotgame;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -21,11 +22,13 @@ public class Ttt {
 	
 	public BotMessage ttt_switch(String input_msg) {
 		
+		System.out.println(input_msg);
+		
 		switch(input_msg) {
 		case "/exit":
 			ttt_status();
 			//output_msg.add("Stopping TickTackToe...");
-			message.setMessageText("Stopping TickTackToe...");
+			this.message.setMessageText("Stopping TickTackToe...");
 			break;
 		case "x":
 			ttt_setSide("x", "o"); break;
@@ -39,7 +42,7 @@ public class Ttt {
 			break;
 		}
 		//return output_msg;
-		return message;
+		return this.message;
 	}
 	
 	public void ttt_status() {
@@ -49,9 +52,17 @@ public class Ttt {
 		this.ttt_AI = new TttAI();
 	}
 	
-	public void ttt_startGame( ) {
-		message.setMessageText("Please enter your side: \n x or o");
+	public BotMessage ttt_startGame( ) {
+		this.message.setMessageText("Please enter your side: \n x or o");
+		List<String> text_list = new ArrayList<String>();
+		text_list.add("X");
+		text_list.add("O");
+		List<String> callback_list = new ArrayList<String>();
+		callback_list.add("x");
+		callback_list.add("o");
+		this.message.setMessageMarkup(text_list, callback_list);
 		ttt_status();
+		return this.message;
 	}
 	
 	public void ttt_setSide(String player_side, String ai_side) {
@@ -60,30 +71,30 @@ public class Ttt {
 			this.ttt_AI.setSide(ai_side);
 			//output_msg.add("you are now playing as: " + player_side);
 			//output_msg.add(ttt_drawGrid(this.ttt_grid));
-			message.setMessageText("you are now playing as: " + player_side);
-			message.setMessageMarkup(this.ttt_grid.grid_array);
+			this.message.setMessageText("you are now playing as: " + player_side);
+			this.message.setMessageMarkup(this.ttt_grid.grid_array);
 		}
 	}
 	public void ttt_doAction(String move) {
 		if (this.ttt_player.player_side != "_") {
 			Set<String> good_moves = new HashSet<String>(); {
-				for (int i=1; i<=3; i++) {
-					good_moves.add("A" + String.valueOf(i));
-					good_moves.add("B" + String.valueOf(i));
-					good_moves.add("C" + String.valueOf(i));
+				for (int i=0; i<=2; i++) {
+					for (int j=0; j<=2; j++) {
+						good_moves.add(String.valueOf(i) + String.valueOf(j));
+					}
 				}
 			}
 			if (good_moves.contains(move)) {
 				if (this.ttt_grid.modifyGrid(move, this.ttt_player.player_side) == false) {
 					this.ttt_AI.doMove(this.ttt_grid);
-					message.setMessageText("Your turn!!");
+					this.message.setMessageText("Your turn!!");
 				} else {
-					message.setMessageText("This spot is taken!");
+					this.message.setMessageText("This spot is taken!");
 				}
-				message.setMessageMarkup(this.ttt_grid.grid_array);
+				this.message.setMessageMarkup(this.ttt_grid.grid_array);
 			}
 		} else {
-			message.setMessageText("Something is wrong, please restart ttt...");
+			this.message.setMessageText("Something is wrong, please restart ttt...");
 		}
 	}
 	public boolean ttt_checkGameOver() {
@@ -92,20 +103,20 @@ public class Ttt {
 		
 		switch (this.ttt_AI.checkGameOver(this.ttt_grid)) {
 		case "x":
-			message.setMessageText("Winner: X");
+			this.message.setMessageText("Winner: X");
 			break;
 		case "o":
-			message.setMessageText("Winner: O");
+			this.message.setMessageText("Winner: O");
 			break;
 		case "xo":
 			if (this.ttt_player.player_side == "x") {
-				message.setMessageText("Winner: X");
+				this.message.setMessageText("Winner: X");
 			} else {
-				message.setMessageText("Winner: O");
+				this.message.setMessageText("Winner: O");
 			}
 			break;
 		case "draw":
-			message.setMessageText("Game ended in a DRAW!");
+			this.message.setMessageText("Game ended in a DRAW!");
 			break;
 		default:
 			result = false;

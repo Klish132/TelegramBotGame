@@ -21,7 +21,7 @@ public class TttGrid {
 			List<List<String>> row = new ArrayList<>();
 			for (int j=0; j<=2; j++) {
 				List<String> button = new ArrayList<>();
-				button.add("_"); button.add(Integer.toString(i) + Integer.toString(j));
+				button.add("_"); button.add(String.valueOf(i) + String.valueOf(j));
 				row.add(button);
 			}
 			this.grid_array.add(row);
@@ -33,18 +33,13 @@ public class TttGrid {
 	
 	public Boolean modifyGrid(String action, String side) {
 		
-		int x_coord = 0;
-		int y_coord = 0;
+		int x_coord = Integer.parseInt(String.valueOf(action.charAt(0)));
+		int y_coord = Integer.parseInt(String.valueOf(action.charAt(1)));
 		
-		switch (action.charAt(0)) {
-		case 'A': x_coord = 0; break;
-		case 'B': x_coord = 1; break;
-		case 'C': x_coord = 2; break;
-		}
-		y_coord = Integer.parseInt(String.valueOf(action.charAt(1))) - 1;
+		System.out.println(x_coord + " " + y_coord);
 		
-		if (this.grid_array.get(y_coord).get(x_coord).get(0) == "_") {
-			this.grid_array.get(y_coord).get(x_coord).set(0, side);
+		if (this.grid_array.get(x_coord).get(y_coord).get(0) == "_") {
+			this.grid_array.get(x_coord).get(y_coord).set(0, side);
 			return false;
 		}
 		return true;

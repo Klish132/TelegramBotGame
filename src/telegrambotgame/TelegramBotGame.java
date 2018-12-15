@@ -27,20 +27,33 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 	@Override
 	public void onUpdateReceived(Update update) {
 		
-		String input_msg = update.getMessage().getText();
-		long chat_id = update.getMessage().getChatId();
-		
 		if (update.hasMessage() && update.getMessage().hasText()) {
+			
+			long chat_id = update.getMessage().getChatId();
+			String input_msg = update.getMessage().getText();
 			
 			//ArrayList<String> output_msg_list = this.core.analyze(input_msg);
 			//for (String message : output_msg_list) {
 			//	sendMsg(chat_id, message, markup);
+			System.out.println(input_msg);
 			BotMessage msg = this.core.analyze(input_msg);
-			sendMsg(chat_id, msg.getMessageText(), arrayToKeyboard(msg.getMessageMarkup()));
+			if (msg.hasMarkup) {
+				sendMsg(chat_id, msg.getMessageText(), arrayToKeyboard(msg.getMessageMarkup()));
+			} else {
+				sendMsg(chat_id, msg.getMessageText());
+			}
+			
 		} else if (update.hasCallbackQuery()) {
+			
+			long chat_id = update.getCallbackQuery().getMessage().getChatId();
 			String cb_data = update.getCallbackQuery().getData();
+			
 			BotMessage msg = this.core.analyze(cb_data);
-			sendMsg(chat_id, msg.getMessageText(), arrayToKeyboard(msg.getMessageMarkup()));
+			if (msg.hasMarkup) {
+				sendMsg(chat_id, msg.getMessageText(), arrayToKeyboard(msg.getMessageMarkup()));
+			} else {
+				sendMsg(chat_id, msg.getMessageText());
+			}
 		}
 	}
 	
@@ -69,11 +82,23 @@ public class TelegramBotGame extends TelegramLongPollingBot {
         	e.printStackTrace();
         }
     }
+	public synchronized void sendMsg(long chatId, String s) {
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.enableMarkdown(false);
+        sendMessage.setChatId(chatId);
+        sendMessage.setText(s);
+        try {
+            execute(sendMessage);
+        } catch (TelegramApiException e) {
+        	e.printStackTrace();
+        }
+    }
 	
 	@Override
 	public String getBotToken() {
 		System.out.print(System.getenv("tgbot_token"));
-		return System.getenv("tgbot_token");
+		//return System.getenv("tgbot_token");
+		return "680527118:AAHs4wOyPxfKuFgRQhvdQXlhK5AKVduiaOQ";
 	}
 
 }

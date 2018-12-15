@@ -14,11 +14,11 @@ public class BotCore {
 	public Ttt ttt_game = new Ttt();
 	public Hangman hangman_game = new Hangman();
 	//public ArrayList<String> output_msg = new ArrayList<String>();
-	public BotMessage message = new BotMessage();
 	
 	public BotMessage analyze(String input_msg) {
 		
 		//output_msg.clear();
+		BotMessage message = new BotMessage();
 		
 		switch(this.ongoing_game) {
 		case "None":
@@ -26,7 +26,7 @@ public class BotCore {
 			switch(input_msg) {
 			case "/ttt":
 				this.ongoing_game = "ttt";
-				this.ttt_game.ttt_startGame();
+				message = this.ttt_game.ttt_startGame();
 				break;
 			case "/hangman":
 				this.ongoing_game = "hangman";
@@ -51,5 +51,5 @@ public class BotCore {
 			break;
 		}
 		return message;
-		}
+	}
 }
