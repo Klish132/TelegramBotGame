@@ -12,7 +12,7 @@ public class HangmanWord {
 		List<List<String>> row = new ArrayList<>();
 		for (int i=0; i<=word.length()-1; i++) {
 			List<String> button = new ArrayList<>();
-			button.add("_");
+			button.add("_"); button.add("None");
 			row.add(button);
 			this.char_array.add(word.charAt(i));
 		}
@@ -34,7 +34,8 @@ public class HangmanWord {
 		
 		for (int i=0; i<this.char_array.size(); i++) {
 			if (this.char_array.get(i) == letter) {
-				this.locked_array.get(0).get(i).set(i, String.valueOf(letter));
+				System.out.println(this.locked_array.get(0).size());
+				this.locked_array.get(0).get(i).set(0, String.valueOf(letter));
 				change_count++;
 			}
 		}

@@ -45,7 +45,7 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 				sendMsg(chat_id, msg.getMessageText());
 			}
 			
-		} else if (update.hasCallbackQuery()) {
+		} else if (update.hasCallbackQuery() && update.getCallbackQuery().getData() != "None") {
 			
 			long chat_id = update.getCallbackQuery().getMessage().getChatId();
 			String cb_data = update.getCallbackQuery().getData();

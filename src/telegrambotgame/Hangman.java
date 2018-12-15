@@ -26,7 +26,7 @@ public class Hangman {
 		switch(input_msg) {
 		case "/exit":
 			hm_status();
-			message.setMessageText("Stopping Hangman...");
+			this.message.setMessageText("Stopping Hangman...");
 			break;
 		default:
 			if (input_msg.length() == 1) {
@@ -37,20 +37,21 @@ public class Hangman {
 			}
 			break;
 		}
-		return message;
+		return this.message;
 	}
 	
 	public void hm_status() {
 		this.game_status = (this.game_status == true) ? false : true;
 	}
 	
-	public void hm_startGame() {
-		hm_status();
+	public BotMessage hm_startGame() {
 		this.hm_word = hm_getWord();
 		this.hm_wordList.fillLists(this.hm_word);
 		hm_fillArtList();
-		message.setMessageText(this.art_list.get(this.fail_counter));
-		message.setMessageMarkup(this.hm_wordList.locked_array);
+		this.message.setMessageText(this.art_list.get(this.fail_counter));
+		this.message.setMessageMarkup(this.hm_wordList.locked_array);
+		hm_status();
+		return this.message;
 	}
 	
 	public void hm_fillArtList() {

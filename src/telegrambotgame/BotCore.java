@@ -30,7 +30,7 @@ public class BotCore {
 				break;
 			case "/hangman":
 				this.ongoing_game = "hangman";
-				this.hangman_game.hm_startGame();
+				message = this.hangman_game.hm_startGame();
 				break;
 			}
 			break;
