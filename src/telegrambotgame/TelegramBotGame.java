@@ -38,7 +38,9 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 			System.out.println(input_msg);
 			BotMessage msg = this.core.analyze(input_msg);
 			if (msg.hasMarkup) {
+				System.out.println(msg.getMessageText());
 				sendMsg(chat_id, msg.getMessageText(), arrayToKeyboard(msg.getMessageMarkup()));
+				
 			} else {
 				sendMsg(chat_id, msg.getMessageText());
 			}
@@ -51,6 +53,7 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 			BotMessage msg = this.core.analyze(cb_data);
 			if (msg.hasMarkup) {
 				sendMsg(chat_id, msg.getMessageText(), arrayToKeyboard(msg.getMessageMarkup()));
+				//System.out.println(msg.getMessageText());
 			} else {
 				sendMsg(chat_id, msg.getMessageText());
 			}
@@ -59,9 +62,11 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 	
 	public InlineKeyboardMarkup arrayToKeyboard(List<List<List<String>>> array) {
 		List<List<InlineKeyboardButton>> result = new ArrayList<>();
-		for (int i=0; i<=2; i++) {
+		int column_length = array.size();
+		for (int i=0; i<column_length; i++) {
 			List<InlineKeyboardButton> row = new ArrayList<>();
-			for (int j=0; j<=2; j++) {
+			int row_length = array.get(i).size();
+			for (int j=0; j<row_length; j++) {
 				List<String> button_array = array.get(i).get(j);
 				row.add(new InlineKeyboardButton().setText(button_array.get(0)).setCallbackData(button_array.get(1)));
 			}
@@ -96,7 +101,6 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 	
 	@Override
 	public String getBotToken() {
-		System.out.print(System.getenv("tgbot_token"));
 		//return System.getenv("tgbot_token");
 		return "680527118:AAHs4wOyPxfKuFgRQhvdQXlhK5AKVduiaOQ";
 	}

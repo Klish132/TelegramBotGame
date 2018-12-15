@@ -22,13 +22,11 @@ public class Ttt {
 	
 	public BotMessage ttt_switch(String input_msg) {
 		
-		System.out.println(input_msg);
-		
 		switch(input_msg) {
 		case "/exit":
+			this.message.setMessageText("Stopping TickTackToe...");
 			ttt_status();
 			//output_msg.add("Stopping TickTackToe...");
-			this.message.setMessageText("Stopping TickTackToe...");
 			break;
 		case "x":
 			ttt_setSide("x", "o"); break;
@@ -53,7 +51,7 @@ public class Ttt {
 	}
 	
 	public BotMessage ttt_startGame( ) {
-		this.message.setMessageText("Please enter your side: \n x or o");
+		this.message.setMessageText("Please enter your side!");
 		List<String> text_list = new ArrayList<String>();
 		text_list.add("X");
 		text_list.add("O");
@@ -71,7 +69,7 @@ public class Ttt {
 			this.ttt_AI.setSide(ai_side);
 			//output_msg.add("you are now playing as: " + player_side);
 			//output_msg.add(ttt_drawGrid(this.ttt_grid));
-			this.message.setMessageText("you are now playing as: " + player_side);
+			this.message.setMessageText("You are playing as \"" + player_side + "\"");
 			this.message.setMessageMarkup(this.ttt_grid.grid_array);
 		}
 	}
@@ -87,7 +85,7 @@ public class Ttt {
 			if (good_moves.contains(move)) {
 				if (this.ttt_grid.modifyGrid(move, this.ttt_player.player_side) == false) {
 					this.ttt_AI.doMove(this.ttt_grid);
-					this.message.setMessageText("Your turn!!");
+					this.message.setMessageText("You are playing as \"" + this.ttt_player.player_side + "\"");
 				} else {
 					this.message.setMessageText("This spot is taken!");
 				}

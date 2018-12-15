@@ -27,7 +27,7 @@ public class BotMessage {
 				button.add(text_list.get(i)); button.add(callback_list.get(i));
 				row.add(button);
 				markup.add(row);
-				}
+			}
 		}
 		
 		this.markup_array = markup;

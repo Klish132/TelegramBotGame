@@ -36,8 +36,6 @@ public class TttGrid {
 		int x_coord = Integer.parseInt(String.valueOf(action.charAt(0)));
 		int y_coord = Integer.parseInt(String.valueOf(action.charAt(1)));
 		
-		System.out.println(x_coord + " " + y_coord);
-		
 		if (this.grid_array.get(x_coord).get(y_coord).get(0) == "_") {
 			this.grid_array.get(x_coord).get(y_coord).set(0, side);
 			return false;
