@@ -13,6 +13,7 @@ public class BotCore {
 	public String ongoing_game = "None";
 	public Ttt ttt_game = new Ttt();
 	public Hangman hangman_game = new Hangman();
+	public Slider slider_game = new Slider();
 	//public ArrayList<String> output_msg = new ArrayList<String>();
 	
 	public BotMessage analyze(String input_msg) {
@@ -32,6 +33,10 @@ public class BotCore {
 				this.ongoing_game = "hangman";
 				message = this.hangman_game.hm_startGame();
 				break;
+			case "/slider":
+				this.ongoing_game = "slider";
+				message = this.slider_game.slider_startGame();
+				break;
 			}
 			break;
 			
@@ -49,7 +54,14 @@ public class BotCore {
 				this.ongoing_game = "None";
 			}
 			break;
+		case "slider":
+			message = this.slider_game.slider_switch(input_msg);
+			//output_msg = this.hangman_game.hm_switch(input_msg);
+			if (this.slider_game.game_status == false) {
+				this.ongoing_game = "None";
 		}
+		break;
+	}
 		return message;
 	}
 }
