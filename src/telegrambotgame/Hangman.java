@@ -42,15 +42,16 @@ public class Hangman {
 	
 	public void hm_status() {
 		this.game_status = (this.game_status == true) ? false : true;
+		this.hm_wordList = new HangmanWord();
 	}
 	
 	public BotMessage hm_startGame() {
+		hm_status();
 		this.hm_word = hm_getWord();
 		this.hm_wordList.fillLists(this.hm_word);
 		hm_fillArtList();
 		this.message.setMessageText(this.art_list.get(this.fail_counter));
 		this.message.setMessageMarkup(this.hm_wordList.locked_array);
-		hm_status();
 		return this.message;
 	}
 	
@@ -60,7 +61,7 @@ public class Hangman {
 			Scanner file_scanner = new Scanner(new File("hangman_art.txt"));
 				
 			while (file_scanner.hasNext()) {
-				this.art_list.add(file_scanner.nextLine());
+				this.art_list.add(file_scanner.nextLine().replaceAll("\\\\n", System.lineSeparator()));
 			}
 			file_scanner.close();
 		
@@ -119,6 +120,11 @@ public class Hangman {
 	
 	public boolean hm_checkGameOver() {
 		if (this.fail_counter == 8) {
+			this.message.setMessageText("Game over, you lost! \n" + this.art_list.get(this.fail_counter));
+			return true;
+		}
+		if (this.hm_wordList.checkGameOver() == true) {
+			this.message.setMessageText("Game over, you won! \n" + this.art_list.get(this.fail_counter));
 			return true;
 		}
 		return false;

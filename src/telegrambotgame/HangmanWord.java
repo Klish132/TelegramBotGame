@@ -17,6 +17,7 @@ public class HangmanWord {
 			this.char_array.add(word.charAt(i));
 		}
 		this.locked_array.add(row);
+		System.out.println("LA SIZE: " + this.locked_array.get(0).size());
 	}
 	
 	public boolean contains(String input) {
@@ -25,6 +26,17 @@ public class HangmanWord {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean checkGameOver() {
+		boolean result = true;
+		for (List<String> letter : this.locked_array.get(0)) {
+			if(letter.contains("_")) {
+				System.out.println("still _");
+				result = false;
+			}
+		}
+		return result;
 	}
 	
 	public int modifyArray(String input) {
