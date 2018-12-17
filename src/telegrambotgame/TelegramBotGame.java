@@ -31,10 +31,7 @@ public class TelegramBotGame extends TelegramLongPollingBot {
 			
 			long chat_id = update.getMessage().getChatId();
 			String input_msg = update.getMessage().getText();
-			
-			//ArrayList<String> output_msg_list = this.core.analyze(input_msg);
-			//for (String message : output_msg_list) {
-			//	sendMsg(chat_id, message, markup);
+
 			System.out.println(input_msg);
 			BotMessage msg = this.core.analyze(input_msg);
 			if (msg.hasMarkup) {

@@ -43,6 +43,7 @@ public class Hangman {
 	public void hm_status() {
 		this.game_status = (this.game_status == true) ? false : true;
 		this.hm_wordList = new HangmanWord();
+		this.fail_counter = 0;
 	}
 	
 	public BotMessage hm_startGame() {

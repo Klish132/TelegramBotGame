@@ -77,7 +77,7 @@ class BotCoreTest {
 		testCore.ongoing_game = "ttt";
 		testCore.ttt_game.ttt_player.setSide("x");
 		testCore.ttt_game.ttt_AI.setSide("o");
-		testCore.ttt_game.ttt_grid.grid_array = start_grid;
+		//testCore.ttt_game.ttt_grid.grid_array = start_grid;
 		
 		ArrayList<String> result = new ArrayList<String>();
 		result.add(drawGrid(end_grid));
@@ -102,7 +102,7 @@ class BotCoreTest {
 			testCore.ongoing_game = "ttt";
 			testCore.ttt_game.ttt_player.setSide("x");
 			testCore.ttt_game.ttt_AI.setSide("o");
-			testCore.ttt_game.ttt_grid.grid_array = start_grid;
+			//testCore.ttt_game.ttt_grid.grid_array = start_grid;
 			
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
@@ -127,7 +127,7 @@ class BotCoreTest {
 			testCore.ongoing_game = "ttt";
 			testCore.ttt_game.ttt_player.setSide("x");
 			testCore.ttt_game.ttt_AI.setSide("o");
-			testCore.ttt_game.ttt_grid.grid_array = start_grid;
+			//testCore.ttt_game.ttt_grid.grid_array = start_grid;
 			
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
@@ -152,7 +152,7 @@ class BotCoreTest {
 			testCore.ongoing_game = "ttt";
 			testCore.ttt_game.ttt_player.setSide("x");
 			testCore.ttt_game.ttt_AI.setSide("o");
-			testCore.ttt_game.ttt_grid.grid_array = start_grid;
+			//testCore.ttt_game.ttt_grid.grid_array = start_grid;
 			
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
@@ -177,7 +177,7 @@ class BotCoreTest {
 			testCore.ongoing_game = "ttt";
 			testCore.ttt_game.ttt_player.setSide("x");
 			testCore.ttt_game.ttt_AI.setSide("o");
-			testCore.ttt_game.ttt_grid.grid_array = start_grid;
+			//testCore.ttt_game.ttt_grid.grid_array = start_grid;
 			
 			ArrayList<String> result = new ArrayList<String>();
 			result.add(drawGrid(end_grid));
